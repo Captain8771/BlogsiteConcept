@@ -1,0 +1,12 @@
+{% extends "./base.html.jinja2" %}
+{% block TITLE %}Home{% endblock %}
+{% block CONTENT %}
+<div id="mainContent">
+<h1 class="title text">{{ C.domain }}</h1>
+<p class="text">Welcome, to {{ C.domain }}! This site is horribly written as an example, but it unfortunately exists nonetheless.</p>
+<div class="blog-redirect" onclick="location.href= '/blog'">
+    <!-- this was written by spamton't -->
+    <p class="text">VIEW THE A[maze]ING [[Blog]]!!!!</p>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "./base.html.jinja2" %}
+
+{% block TITLE %}{{ BlogMeta.name }}{% endblock %}
+{% block HEAD %}
+<script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js "></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const md = window.markdownit({
+            html: true,
+            highlight: function (str, lang) {
+                if (lang && hljs.getLanguage(lang)) {
+                  try {
+                    return hljs.highlight(str, { language: lang }).value;
+                  } catch (__) {}
+                }
+
+                return ''; // use external default escaping
+              }
+        });
+        const result = md.render(`{{ BlogMeta.content.replace("`", "\`") }}`);
+        document.getElementById("content").innerHTML = result;
+        document.querySelectorAll("code").forEach((el) => {
+            el.setAttribute("clang", el.classList[0].split("-")[1])
+        })
+    })
+
+</script>
+{{ super() }}{% endblock %}
+
+{% block CONTENT %}
+<p class="text" id="content">Loading...</p>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "./base.html.jinja2" %}
+{% block TITLE %}Blogs{% endblock %}
+{% block CONTENT %}
+    <div class="blog-meta-container">
+        {% for BlogMeta in blogs %}
+            <div class="blog-meta" onclick="location.href='/blog/{{ BlogMeta.filename }}'">
+                <p class="text name">{{ BlogMeta.name }}</p>
+                <p class="text preview">{{ gen_preview(BlogMeta) }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

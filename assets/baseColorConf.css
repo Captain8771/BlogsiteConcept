@@ -1,0 +1,11 @@
+:root {
+    --bg-main: #111111;
+    --bg-secondary: #222222;
+    --text-main: #FFFFFF;
+    --blog-redirect-clr: #00A5FF;
+    --blog-redirect-clr-hvr: #0064c8;
+}
+
+a {
+    color: #0064c8;
+}
