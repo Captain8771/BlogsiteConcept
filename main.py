@@ -1,3 +1,5 @@
+import random
+
 import quart as q
 import os
 
@@ -11,6 +13,7 @@ class Constants:
     secure = False
     domain = f"http{'s' if secure else ''}://{ip}:{port}"
 
+
 class BlogMeta:
     def __init__(self, mdfile: str, filename: str = "error"):
         self.filename = filename.split("/")[-1]
@@ -23,6 +26,7 @@ class BlogMeta:
             value = line.split(":")[1:len(line.split(":"))][0].strip()
             setattr(self, name, value)
 
+
 async def gen_preview(blog: BlogMeta):
     if getattr(blog, "preview", False):
         return blog.preview  # type: ignore
@@ -33,14 +37,14 @@ async def gen_preview(blog: BlogMeta):
         return con[:25].strip(" ") + "..."
 
 
-
 @app.get("/")
 async def home():
     return await q.render_template("home.html.jinja2", C=Constants)
 
+
 @app.get("/blog")
 async def blog():
-    blogs = os.listdir("./blogs")
+    blogs = [f for f in os.listdir("./blogs") if not f.startswith("404")]
     blogMetas = []
     for blog in blogs:
         with open(f"./blogs/{blog}", "r") as f:
@@ -48,10 +52,15 @@ async def blog():
 
     return await q.render_template("bloglist.html.jinja2", C=Constants, blogs=blogMetas, gen_preview=gen_preview)
 
+
 @app.get("/blog/<blog>")
 async def gblog(blog: str):
-    with open(f"blogs/{blog}", "r") as f:
-        return await q.render_template("blog.html.jinja2", C=Constants, BlogMeta=BlogMeta(f.read(), f.name))
+    try:
+        with open(f"blogs/{blog}", "r") as f:
+            return await q.render_template("blog.html.jinja2", C=Constants, BlogMeta=BlogMeta(f.read(), f.name))
+    except FileNotFoundError:
+        with open(f"blogs/404-{random.randint(random.choice([1, 2, 2, 2, 2]), 4)}.md", "r") as f:
+            return await q.render_template("blog.html.jinja2", C=Constants, BlogMeta=BlogMeta(f.read(), f.name))
 
 
 @app.get("/assets/<path:asset>")

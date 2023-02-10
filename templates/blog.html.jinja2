@@ -24,6 +24,21 @@
         document.querySelectorAll("code").forEach((el) => {
             el.setAttribute("clang", el.classList[0].split("-")[1])
         })
+
+        if ({{ BlogMeta.e17 or 0 }}) {
+            document.querySelectorAll(`h1, p:not(#content)`).forEach(el => el.classList.add("e17"))
+            document.querySelectorAll(".e17").forEach(e17 => {
+                const chars = Array.from(e17.innerHTML);
+                e17.style.fontFamily = "Wingdings";
+                const multiplier = 2
+                {#const wd = {"A":"✌","B":"👌","C":"👍","D":"👎","E":"☜","F":"☞","G":"☝","H":"☟","I":"✋","J":"☺","K":"😐","L":"☹","M":"💣","N":"☠","O":"⚐","P":"🏱","Q":"✈","R":"☼","S":"💧","T":"❄","U":"🕆","V":"✞","W":"🕈","X":"✠","Y":"✡","Z":"☪"}#}
+                setInterval(() => {
+                    const newchars = [];
+                    chars.forEach(c => newchars.push(`<span style="position: relative; left: ${Math.random() * multiplier}px; top: ${Math.random() * multiplier}px">${c}</span>`))
+                    e17.innerHTML = newchars.join("")
+                }, 25);
+            })
+        }
     })
 
 </script>
