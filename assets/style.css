@@ -55,3 +55,10 @@ code:before {
 .preview {
     color: gray;
 }
+
+.timestamp {
+    color: #444444;
+    font-size: 10px;
+    position: absolute;
+    transform: translateY(-75px);
+}

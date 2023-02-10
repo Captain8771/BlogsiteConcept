@@ -1,10 +1,54 @@
 {% extends "./base.html.jinja2" %}
 {% block TITLE %}Blogs{% endblock %}
+{% block HEAD %}
+{{ super() }}
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".timestamp").forEach(el => {
+            const date = new Date(el.innerHTML * 1000)
+
+            months = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+            ]
+
+            let hours = date.getHours()
+            let minutes = date.getMinutes()
+            let seconds = date.getSeconds()
+
+            if (hours < 10) {
+            hours = "0" + hours.toString()
+            }
+
+            if (minutes < 10) {
+            minutes = "0" + minutes.toString()
+            }
+
+            if (seconds < 10) {
+            seconds = "0" + seconds.toString()
+            }
+
+            el.innerHTML = `${months[date.getMonth()]} ${date.getDate()} ${hours}:${minutes}:${seconds}`
+        })
+    })
+    </script>
+{% endblock %}
 {% block CONTENT %}
     <div class="blog-meta-container">
         {% for BlogMeta in blogs %}
             <div class="blog-meta" onclick="location.href='/blog/{{ BlogMeta.filename }}'">
                 <p class="text name">{{ BlogMeta.name }}</p>
+                <p class="text timestamp">{{ BlogMeta.timestamp }}</p>
                 <p class="text preview">{{ gen_preview(BlogMeta) }}</p>
             </div>
         {% endfor %}
